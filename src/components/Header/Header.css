@@ -1,0 +1,18 @@
+.header {
+  width: 250px;
+  background: rgb(83, 133, 167);
+  justify-content: center;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  position: absolute;
+  z-index: 1;
+  top: 70px;
+  text-align: center;
+  margin: 10px;
+  box-shadow: 3px 3px 3px rgb(173, 173, 173);
+}
+
+h1 {
+  color: #fff;
+  font-size: 20px;
+}

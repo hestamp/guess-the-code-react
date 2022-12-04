@@ -1,0 +1,18 @@
+.task {
+  width: 450px;
+  background: #fff;
+  justify-content: center;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  position: absolute;
+  z-index: 1;
+  top: 180px;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 3px 3px 3px rgb(173, 173, 173);
+}
+
+.taskText {
+  font-size: 19px;
+  font-weight: 500;
+}

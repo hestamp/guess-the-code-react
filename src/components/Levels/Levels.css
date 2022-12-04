@@ -1,0 +1,31 @@
+.levels {
+  width: 350px;
+  background: #fff;
+  justify-content: space-around;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  position: absolute;
+  padding: 10px;
+  bottom: 200px;
+  display: flex;
+  text-align: center;
+  margin: 10px;
+  box-shadow: 3px 3px 3px rgb(173, 173, 173);
+}
+
+.levels button {
+  width: 30%;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: rgb(83, 133, 167);
+}
+
+.levels button.active {
+  background: rgb(167, 96, 83);
+}
