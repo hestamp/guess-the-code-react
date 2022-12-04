@@ -3,19 +3,14 @@ import './Wrapper.css'
 
 const Wrapper = ({
   wordObject,
-  randomWord,
+  newCodeButt,
   typeInput,
   inputRef,
   corrects,
   maxGuesses,
   incorrects,
+  tipMe,
 }) => {
-  // linkHelper.href = wordObj.helper
-  // hintPhrase.innerText = wordObj.hint
-  // guessesLeft.innerText = maxGuesses
-  // wrongLetters.innerText = incorrects
-  // taskBlock.innerText = wordObj.task
-
   let word = wordObject?.word
 
   return (
@@ -57,10 +52,20 @@ const Wrapper = ({
           <button id="1" className="timerButton">
             ⧗
           </button>
-          <button onClick={randomWord} className="resetButton">
+          <button onClick={newCodeButt} className="resetButton">
             New Code
           </button>
-          <button className="tipButton">?</button>
+          <button
+            disabled={
+              (word && word.length < 3) || maxGuesses < 3 ? true : false
+            }
+            onClick={tipMe}
+            className={`tipButton ${
+              (word && word.length < 3) || maxGuesses < 3 ? 'active' : ''
+            }`}
+          >
+            ?
+          </button>
         </div>
       </div>
     </div>

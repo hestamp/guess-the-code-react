@@ -1,17 +1,19 @@
 import React from 'react'
 import './Score.css'
 
-const Score = () => {
+const Score = ({ resetScore, streakStat, winStat }) => {
   return (
     <div className="scoreTable">
       <div className="stabs">
         <div className="winGames">
-          Wins: <span> 0</span>
+          Wins: <span> {winStat}</span>
         </div>
         <div className="winStrick">
-          Streak: <span> 0</span>
+          Streak: <span> {streakStat}</span>
         </div>
-        <button className="resetScore">Reset</button>
+        <button onClick={resetScore} className="resetScore">
+          Reset
+        </button>
       </div>
     </div>
   )

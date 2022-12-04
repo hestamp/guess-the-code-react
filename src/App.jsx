@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 
 import wordList from '../src/Data/words.js'
 
-import './App.css'
-
 import Header from './components/Header/Header'
 import Levels from './components/Levels/Levels'
 import Score from './components/Score/Score'
@@ -16,6 +14,8 @@ function App() {
   const [chooseMode, setChooseMode] = useState(null)
   const [wordObject, setWordObject] = useState(null)
   const [maxGuesses, setMaxGuesses] = useState(5)
+  const [streakStat, setStreakStat] = useState(0)
+  const [winStat, setWinStat] = useState(0)
   const [corrects, setCorrects] = useState([])
   const [incorrects, setIncorrects] = useState([])
   const [tipLetterArray, setTipLetterArray] = useState(null)
@@ -31,14 +31,12 @@ function App() {
     typeInput.current.addEventListener('input', initGame)
     inputRef.current.addEventListener('click', () => typeInput.current.focus())
     document.addEventListener('keydown', () => typeInput.current.focus())
-    const inputs = document.querySelector('.inputs')
   }, [])
 
   //pressKeysAction
   function initGame(e) {
     let key = e.target.value.toLowerCase()
-    console.log(key)
-    let word = 'me'
+    let word = wordObject && wordObject.word
 
     if (
       key.match(/^[A-Za-z]+$/) &&
@@ -50,7 +48,7 @@ function App() {
         for (let i = 0; i < word.length; i++) {
           if (word[i] === key) {
             setCorrects((oldArray) => [...oldArray, key])
-            typeInput.querySelectorAll('input')[i].value = key
+            // typeInput.querySelectorAll('inputBlock')[i].value = key
           }
         }
       } else {
@@ -64,9 +62,12 @@ function App() {
   }
 
   const randomWord = () => {
-    let choose = null
+    if (localStorage) {
+      setWinStat(localStorage.getItem('wins') || 0)
+      setStreakStat(localStorage.getItem('streak') || 0)
+    }
 
-    choose = wordList.filter((level) => level.hard === difficultySet)
+    let choose = wordList.filter((level) => level.hard === difficultySet)
 
     setChooseMode(choose)
 
@@ -82,16 +83,7 @@ function App() {
       setMaxGuesses(5)
       setIncorrects([])
       setCorrects([])
-      let tip = wordObj.word.split('')
-      setTipLetterArray(tip)
-
-      // if (guessWord.length < 3) {
-      //   tipBtn.classList.add('active')
-      //   tipBtn.disabled = true
-      // } else {
-      //   tipBtn.classList.remove('active')
-      //   tipBtn.disabled = false
-      // }
+      setTipLetterArray(wordObj.word.split(''))
     } else {
       //restart page after all guessed
       // hintPhrase.innerText = `Thats all. Realoading...`
@@ -102,23 +94,47 @@ function App() {
     }
   }
 
-  useEffect(() => {}, [])
+  const newCodeButt = () => {
+    randomWord()
+    setStreakStat(0)
+    // localStorage.setItem('streak', '0')
+  }
+
+  const resetScore = () => {
+    setStreakStat(0)
+    setWinStat(0)
+  }
+
+  const levelSelect = (num) => {
+    setDifficultySet(num)
+    randomWord()
+    // wrappMe.classList.remove('active', 'wrong')
+  }
+
+  const tipMe = () => {
+    setMaxGuesses((prev) => prev - 3)
+  }
 
   return (
     <div className="App">
       <Header />
       <Task wordObject={wordObject} />
       <Wrapper
+        tipMe={tipMe}
         maxGuesses={maxGuesses}
         incorrects={incorrects}
         corrects={corrects}
         inputRef={inputRef}
         typeInput={typeInput}
-        randomWord={randomWord}
+        newCodeButt={newCodeButt}
         wordObject={wordObject}
       />
-      <Levels />
-      <Score />
+      <Levels difficultySet={difficultySet} levelSelect={levelSelect} />
+      <Score
+        resetScore={resetScore}
+        streakStat={streakStat}
+        winStat={winStat}
+      />
     </div>
   )
 }
